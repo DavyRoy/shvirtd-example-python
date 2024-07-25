@@ -1,14 +1,7 @@
-# Используем базовый образ python 3.9
 FROM python:3.9-slim
-
-# Устанавливаем рабочую директорию
-WORKDIR /app
-
-# Копируем содержимое текущей директории в рабочую директорию контейнера
-COPY . .
-
-# Устанавливаем зависимости из requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Определяем команду по умолчанию
+RUN python3 -m venv venv
+RUN . venv/bin/activate
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY main.py .
 CMD ["python", "main.py"]
