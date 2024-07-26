@@ -1,1 +1,8 @@
-node_modules/
+schema.pdf
+README.md
+proxy.yaml
+LICENSE
+haproxy/reverse/*
+nginx/ingress/*
+#.env
+compose.yaml
