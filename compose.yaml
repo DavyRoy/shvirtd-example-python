@@ -1,3 +1,5 @@
+version: '3.8'
+
 include:
   - proxy.yaml
 
@@ -41,3 +43,4 @@ services:
 networks:
   backend:
     external: true
+
