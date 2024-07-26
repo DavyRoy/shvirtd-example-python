@@ -10,8 +10,8 @@ services:
       - .env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=test_db
-      - MYSQL_USER=test_db
+      - MYSQL_DATABASE=virt
+      - MYSQL_USER=app
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_HOST="%"
     volumes:
@@ -27,9 +27,9 @@ services:
     restart: on-failure
     environment:
       - DB_HOST=db
-      - DB_USER=test_db
+      - DB_USER=app
       - DB_PASSWORD=${MYSQL_PASSWORD}
-      - DB_NAME=test_db
+      - DB_NAME=app
     depends_on:
       - db
     ports:
