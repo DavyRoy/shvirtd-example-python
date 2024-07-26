@@ -23,7 +23,7 @@ services:
         ipv4_address: 172.20.0.10
 
   web:
-    image: cr.yandex/crpfpe6a9e3kk9f8np39/ip_hunter:latest
+    image: my-python-app
     restart: on-failure
     environment:
       - DB_HOST=db
