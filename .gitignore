@@ -1,2 +1,2 @@
-venv/
-.env
+docker_volumes
+.docker_volumes
