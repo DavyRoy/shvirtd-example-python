@@ -29,7 +29,7 @@ services:
       - DB_HOST=db
       - DB_USER=app
       - DB_PASSWORD=${MYSQL_PASSWORD}
-      - DB_NAME=app
+      - DB_NAME=virt
     depends_on:
       - db
     ports:
