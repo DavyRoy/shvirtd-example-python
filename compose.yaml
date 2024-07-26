@@ -1,47 +1,46 @@
 include:
   - proxy.yaml
-services:
-  web:
-    build: 
-      context: .
-      dockerfile: Dockerfile.python
-    environment:
-      - DB_HOST=db
-      - DB_USER=${MYSQL_USER:-app}
-      - DB_PASSWORD=${MYSQL_PASSWORD:-very_strong}
-      - DB_NAME=${MYSQL_DATABASE:-example}
-    env_file:
-      - .env
-    restart: always
-    networks:
-      backend: 
-        ipv4_address: 172.20.0.5
-    depends_on:
-      - db
 
+services:
   db:
     image: mysql:8
-    volumes:
-      - db_data:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    command: --mysql-native-password=ON
+    restart: on-failure
     env_file:
       - .env
-    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=test_db
+      - MYSQL_USER=test_db
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_HOST="%"
+    volumes:
+      - ./docker_volumes/mysql:/var/lib/mysql:delegated
+    ports:
+      - 3306:3306
     networks:
       backend:
         ipv4_address: 172.20.0.10
 
+  web:
+    image: cr.yandex/crpfpe6a9e3kk9f8np39/ip_hunter:latest
+    restart: on-failure
+    environment:
+      - DB_HOST=db
+      - DB_USER=test_db
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_NAME=test_db
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+    networks:
+      backend:
+        ipv4_address: 172.20.0.5
 
 networks:
   backend:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/24
-
-volumes:
-  db_data:
+      - subnet: 172.20.0.0/24
