@@ -23,7 +23,7 @@ services:
         ipv4_address: 172.20.0.10
 
   web:
-    image: my-app
+    image: my-python-app
     restart: on-failure
     environment:
       - DB_HOST=db
